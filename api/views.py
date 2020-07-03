@@ -11,16 +11,16 @@ from rest_framework.decorators import api_view
 @api_view(['GET'])
 def bank_detail_view(request, ifsc, *args, **kwargs):
     qs = Branch.objects.filter(ifsc__iexact=ifsc).first()
-    if not qs.exists():
-        return Response({}, status=404)
+    # if not qs.exists():
+        # return Response({}, status=404)
     serializer = BranchSerializer(qs)
     return Response(serializer.data, status=200)
 
 @api_view(['GET'])
 def banks_list_view(request, city, bank, *args, **kwargs):
     qs = Branch.objects.filter(city__iexact=city, bank__name__icontains=bank)
-    if not qs.exists():
-        return Response({}, status=404)
+    # if not qs.exists():
+        # return Response({}, status=404)
     serializer = BranchSerializer(qs, many=True)
     return Response(serializer.data, status=200)
 
@@ -46,7 +46,7 @@ class UploadView(APIView):
             bank_object, created = Bank.objects.get_or_create(
                 name=bank_name
             )
-            
+
             branch_defaults = {
                 'name': branch,
                 'bank': bank_object,
